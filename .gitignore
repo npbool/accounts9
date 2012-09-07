@@ -1,9 +1,10 @@
+/config.coffee
+node_modules
+/*.log
+
 *~
 *.swp
-public/stylesheets/*.css
-config.js
-.DS_Store
-node_modules
+
 .settings
 .project
-*.xcode*
+.DS_Store

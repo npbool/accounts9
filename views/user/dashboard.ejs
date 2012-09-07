@@ -1,0 +1,45 @@
+<h1><%= msg('dashboard') %></h1>
+<a href="/editinfo" class="btn" style="float:right;position:relative;top:10px">
+    <i class="icon-edit icon-white"></i>
+    <%= msg('edit-userinfo') %>
+</a>
+<h2><%= msg('userinfo') %></h2>
+<div id="profile" class="no-avatar">
+    <%- partial('userinfo') %>
+</div>
+<hr>
+
+<h2><%= msg('authorized-apps') %></h2>
+<% if (apps.success) { %>
+  <% if (apps.authorizedapps.length) { %>
+    <ul>
+      <%- partial('app/authedappitem', apps.authorizedapps) %>
+    </ul>
+  <% } else { %>
+    <%= msg('no-apps-yet') %>
+  <% } %>
+<% } else { %>
+  <p>
+    <%= msg('error-retrieving-apps') %>
+  </p>
+<% } %>
+<hr>
+
+<a href="/appreg" class="btn" style="float:right;position:relative;top:10px">
+  <i class="icon-plus icon-white"></i>
+  <%= msg('register-new-app') %>
+</a>
+<h2><%= msg('registered-apps') %></h2>
+<% if (apps.success) { %>
+  <% if (apps.apps.length) { %>
+    <ul>
+      <%- partial('partials/appitem', apps.apps) %>
+    </ul>
+  <% } else { %>
+    <%= msg('no-apps-yet') %>
+  <% } %>
+<% } else { %>
+  <p>
+    <%= msg('error-retrieving-apps') %>
+  </p>
+<% } %>

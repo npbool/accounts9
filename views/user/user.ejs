@@ -1,0 +1,21 @@
+<div id="profile">
+    <p>
+        <h1><%= user.nickname %></h1>
+        <% if (user.website) { %>
+          <a href="<%= user.website %>" target="_blank" style="text-decoration:none">
+        <% } %>
+        <img src="<%= user.gravatar(100) %>" id="profile-avatar" alt="Gravatar" />
+        <% if (user.website) { %>
+          </a>
+        <% } %>
+    </p>
+    <%- partial('userinfo') %>
+    <% if (curUser && curUser.name == user.name) { %>
+      <p>
+        <a href="/dashboard" class="btn top-right">
+          <i class="icon-edit icon-white"></i>
+          <%= msg('dashboard') %>
+        </a>
+      </p>
+    <% } %>
+</div>

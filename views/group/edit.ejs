@@ -1,0 +1,59 @@
+<form class="horizontal" method="post">
+  <fieldset>
+    <legend><%= title %></legend>
+    <div class="field">
+      <label for="name"><%- msg('group-name') %></label>
+      <div class="controls">
+        <input type="text" class="text" id="name" name="name"
+        <% if (group) { %>
+          value="<%= group.name %>"
+          readonly="readonly"
+        <% } %>
+        >
+      </div>
+    </div>
+    <div class="field">
+      <label for="title"><%- msg('group-title') %></label>
+      <div class="controls">
+        <input type="text" class="text" id="title" name="title"
+        <% if (group) { %>
+          value="<%= group.title %>"
+        <% } %>
+        >
+      </div>
+    </div>
+    <div class="field">
+      <label for="parent"><%- msg('group-parent') %></label>
+      <div class="controls">
+        <input type="text" class="text" id="parent" name="parent"
+        <% if (group) { %>
+          <% if (!parentGroup) { %>
+            readonly="readonly"
+            <% } else { %>
+            value="<%= group.parent %>"
+          <% } %>
+        <% } else { %>
+          value="<%= parentGroup %>"
+          readonly="readonly"
+        <% } %>
+        >
+      </div>
+    </div>
+    <div class="field">
+      <label for="desc"><%- msg('group-desc') %></label>
+      <div class="controls">
+        <textarea class="text" id="desc" rows="3" name="desc"><% if (group) { %><%= group.desc %><% } %></textarea>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary"><%- msg('Submit') %></button>
+      <a
+      <% if (group) { %>
+        href="/group/<%= group.name %>"
+      <% } else { %>
+        href="/group/<%= parentGroup.name %>"
+      <% } %>
+      class="btn"><%- msg('Cancel') %></a>
+    </div>
+  </fieldset>
+</form>

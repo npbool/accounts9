@@ -1,0 +1,14 @@
+<ul class="breadcrumb">
+  <li>
+    <a href="/group"><%- msg('groups') %></a>
+    <span class="divider">/</span>
+  </li>
+  <li>
+    <a href="/group/<%= group.name %>"><%= group.title %></a>
+    <span class="divider">/</span>
+  </li>
+  <li class="active"><%- msg('all-users') %></li>
+</ul>
+
+<h1><%- msg('all-users') %></h1>
+<%- partial('userlist') %>
