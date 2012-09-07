@@ -6,6 +6,7 @@ crypto = require("crypto")
 
 User = (user) ->
   @name = user.name ? ''
+  @normname = user.normname ? ''
   @password = user.password ? ''
   @uid = parseInt(user.uid) ? 0
   @nickname = user.nickname ? ''
@@ -22,7 +23,7 @@ User = (user) ->
   @regtime = user.regtime ? new Date()
   @
 
-User.attributes = ['name', 'password', 'uid', 'nickname', 'surname',
+User.attributes = ['name', 'normname', 'password', 'uid', 'nickname', 'surname',
   'givenname', 'fullname', 'email', 'mobile', 'website', 'address',
   'bio', 'birthdate', 'groups', 'regtime'
 ]
@@ -34,6 +35,7 @@ mongoose.model "User", new mongoose.Schema(
     type: String
     index: true
     unique: true
+  dispname: String
   uid: Number
   password: String
   nickname: String
@@ -63,7 +65,7 @@ User.sync = (callback) ->
     
 User._getUser = (name, callback) ->
   return callback("mongodb-not-connected")  unless mongoose.connected
-  User.model.find name: name, (err, users) ->
+  User.model.find normname: name.toLowerCase(), (err, users) ->
     return callback(err)  if err
     if users.length is 1
       callback null, users[0]
@@ -106,14 +108,16 @@ User.create = create = (user, callback) ->
   return callback("fields-required")  if not user.name or not user.password or not user.email
   return callback("password-mismatch")  unless user.password is user["password-repeat"]
   
-  usernameRegex = /^[a-zA-Z][a-zA-Z0-9_]{3,11}$/
+  usernameRegex = /^[a-zA-Z][a-zA-Z0-9_]{2,11}$/
   return callback("invalid-username")  unless usernameRegex.exec(user.name)
   
   emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/
   return callback("invalid-email")  unless emailRegex.exec(user.email)
   
+  user.normname =  user.name.toLowerCase()
   user = utils.subset(user, User.attributes)
   user.password = utils.genPassword user.password
+  
   
   User.checkName user.name, (err) ->
     return callback(err) if err

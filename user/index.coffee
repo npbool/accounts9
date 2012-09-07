@@ -81,7 +81,7 @@ module.exports = (app) ->
         title: messages.get("Login")
         returnto: req.query.returnto
 
-  app.post "/login", (req, res) ->
+  app.post "/login", (req, res) ->	
     User.getByName req.body.username, (err, user) ->
       
       if not err and not (user.checkPassword req.body.password)
@@ -103,8 +103,9 @@ module.exports = (app) ->
     req.session.user = null
     res.redirect req.query.returnto or "/"
 
-  app.post "/register", (req, res, next) ->
-    user = utils.subset(req.body, [ "name", "password", "password-repeat", "email" ])
+  app.post "/register", (req, res, next) ->        
+    user = utils.subset(req.body, [ "name", "password", "password-repeat", "email" ])    
+
     User.create user, (err, user) ->
       if not err
         req.session.user = user
@@ -120,7 +121,7 @@ module.exports = (app) ->
         title: messages.get("Register")
 
   app.get "/checkuser", (req, res) ->
-    User.checkName req.param("name"), (err) ->
+    User.checkName req.param("name").toLowerCase(), (err) ->
       res.json err
 
   app.all "/editinfo", checkLogin
